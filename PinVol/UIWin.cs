@@ -1031,10 +1031,6 @@ namespace PinVol
             SSFFSDownKey = new KeyField(this, "SSF Front Sides Volume Down", cfg.keys["SSFFSVolDown"], txtSSFFSDown, true,
                 () => { SSFFSVolumeAdjust(-1, cfg.OSDOnHotkeys ? OSDWin.OSDType.SSFFS : OSDWin.OSDType.None); });
 
-            // set the initial SSF key group settings
-            EnableGroupSSFKeys(cfg.GroupSSFKeys);
-            ckGroupSSFKeys.Checked = cfg.GroupSSFKeys;
-
             // set the initial UI state to the loaded config values
             AllKeyConfigToUI();
 
@@ -1043,6 +1039,10 @@ namespace PinVol
 
             // log startup status
             LogKeyStatus("Hotkeys assigned:");
+
+            // set the initial SSF key group settings
+            EnableGroupSSFKeys(cfg.GroupSSFKeys);
+            ckGroupSSFKeys.Checked = cfg.GroupSSFKeys;
 
             // no OSD window yet (we create it as needed)
             osdwin = null;

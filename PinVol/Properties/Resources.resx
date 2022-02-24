@@ -121,11 +121,14 @@
   <data name="VolumeIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\VolumeIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="PinVolSpeaker" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\PinVolSpeaker.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="nightMode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\nightMode.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="keyboardicon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\keyboardicon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Chain" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Chain.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="nightModeLarge" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\nightModeLarge.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RotateCCW" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\rotateccw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -133,10 +136,13 @@
   <data name="RotateCW" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\rotatecw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="nightMode" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\nightMode.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="PinVolSpeaker" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\PinVolSpeaker.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="nightModeLarge" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\nightModeLarge.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="keyboardicon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\keyboardicon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Chain-Link-Sm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Chain-Link-Sm.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

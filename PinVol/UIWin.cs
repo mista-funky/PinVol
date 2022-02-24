@@ -1023,13 +1023,17 @@ namespace PinVol
             SSFBGDownKey = new KeyField(this, "SSF Back Glass Volume Down", cfg.keys["SSFBGVolDown"], txtSSFBGDown, true,
                 () => { SSFBGVolumeAdjust(-1, cfg.OSDOnHotkeys ? OSDWin.OSDType.SSFBG : OSDWin.OSDType.None); });
             SSFRSUpKey = new KeyField(this, "SSF Rear Sides Volume Up", cfg.keys["SSFRSVolUp"], txtSSFRSUp, true,
-                () => { SSFRSVolumeAdjust(1, cfg.OSDOnHotkeys ? OSDWin.OSDType.SSFRS : OSDWin.OSDType.None); });
-            SSFRSDownKey = new KeyField(this, "SSF Rear Sides Volume Down", cfg.keys["SSFRSVolDown"], txtSSFRSDown, true,
-                () => { SSFRSVolumeAdjust(-1, cfg.OSDOnHotkeys ? OSDWin.OSDType.SSFRS : OSDWin.OSDType.None); });
+                    () => { SSFRSVolumeAdjust(1, cfg.OSDOnHotkeys ? OSDWin.OSDType.SSFRS : OSDWin.OSDType.None); });
+            SSFRSDownKey = new KeyField(this, "SSF Rear Sides Volume Down", cfg.keys["SSFRSVolDown"], txtSSFRSDown,
+                    true, () => { SSFRSVolumeAdjust(-1, cfg.OSDOnHotkeys ? OSDWin.OSDType.SSFRS : OSDWin.OSDType.None); });
             SSFFSUpKey = new KeyField(this, "SSF Front Sides Volume Up", cfg.keys["SSFFSVolUp"], txtSSFFSUp, true,
                 () => { SSFFSVolumeAdjust(1, cfg.OSDOnHotkeys ? OSDWin.OSDType.SSFFS : OSDWin.OSDType.None); });
             SSFFSDownKey = new KeyField(this, "SSF Front Sides Volume Down", cfg.keys["SSFFSVolDown"], txtSSFFSDown, true,
                 () => { SSFFSVolumeAdjust(-1, cfg.OSDOnHotkeys ? OSDWin.OSDType.SSFFS : OSDWin.OSDType.None); });
+
+            // set the initial SSF key group settings
+            EnableGroupSSFKeys(cfg.GroupSSFKeys);
+            ckGroupSSFKeys.Checked = cfg.GroupSSFKeys;
 
             // set the initial UI state to the loaded config values
             AllKeyConfigToUI();
@@ -1091,6 +1095,36 @@ namespace PinVol
             }
         }
         bool joysticksEverEnabled = false;
+
+        // enable/disable grouping of SSF Front - Rear keys
+        void EnableGroupSSFKeys(bool enable)
+        {
+            // register or unregister the hotkeys for the secondary local controls
+            if (SSFRSUpKey != null && SSFRSDownKey != null)
+            {
+                if (!enable)
+                {
+                    if (!SSFRSUpKey.Registered())
+                        SSFRSUpKey.Register(this);
+
+                    if (!SSFRSDownKey.Registered())
+                        SSFRSDownKey.Register(this);
+
+                    picChainLockBig.Visible = false;
+                }
+                else
+                {
+                    SSFRSUpKey.Unregister();
+                    SSFRSDownKey.Unregister();
+                    picChainLockBig.Visible = true;
+                }
+            }
+
+            // enable or disable the hotkey text fields
+            txtSSFRSUp.Enabled = !enable;
+            txtSSFRSDown.Enabled = !enable;
+            trkSSFRSVol.Enabled = !enable;
+        }
 
         // Handle a joystick device error
         public void OnJoystickError(JoystickDev js)
@@ -1331,6 +1365,13 @@ namespace PinVol
                 trkSSFFSVol.Value += (int)delta;
                 lblSSFFSVol.Text = trkSSFFSVol.Value + " dB";
                 SSFFSVolume = trkSSFFSVol.Value;
+
+                if (cfg.GroupSSFKeys)
+                {
+                    trkSSFRSVol.Value = trkSSFFSVol.Value;
+                    lblSSFRSVol.Text = lblSSFFSVol.Text;
+                    SSFRSVolume = trkSSFRSVol.Value;
+                }
 
                 // update the volume settings
                 SetLocalVol(localVolume, local2Volume, SSFBGVolume, SSFRSVolume, SSFFSVolume);
@@ -1574,8 +1615,12 @@ namespace PinVol
             // SSF
             SSFBGUpKey.Register(this);
             SSFBGDownKey.Register(this);
-            SSFRSUpKey.Register(this);
-            SSFRSDownKey.Register(this);
+            if (!cfg.GroupSSFKeys)
+            {
+                SSFRSUpKey.Register(this);
+                SSFRSDownKey.Register(this);
+            }
+
             SSFFSUpKey.Register(this);
             SSFFSDownKey.Register(this);
 
@@ -1878,6 +1923,19 @@ namespace PinVol
             }
         }
 
+        private void ckGroupSSFKeys_CheckedChanged(object sender, EventArgs e)
+        {
+            bool f = ckGroupSSFKeys.Checked;
+            if (cfg.GroupSSFKeys != f)
+            {
+                cfg.GroupSSFKeys = f;
+                SetCfgDirty();
+
+                // enable or disable SSF keys
+                EnableGroupSSFKeys(f);
+            }
+        }
+
         private void ckEnableJoystick_CheckedChanged(object sender, EventArgs e)
         {
             // check for a change in status
@@ -2030,6 +2088,13 @@ namespace PinVol
             lblSSFFSVol.Text = trkSSFFSVol.Value + " dB";
             int value = trkSSFFSVol.Value;
             SSFFSVolume = value;
+
+            if (cfg.GroupSSFKeys)
+            {
+                trkSSFRSVol.Value = value;
+                lblSSFRSVol.Text = trkSSFFSVol.Value + " dB";
+                SSFRSVolume = value;
+            }
 
             // update the volume settings
             SetLocalVol(localVolume, local2Volume, SSFBGVolume, SSFRSVolume, SSFFSVolume);

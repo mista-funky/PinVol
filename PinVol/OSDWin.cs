@@ -161,26 +161,28 @@ namespace PinVol
                     DrawVolumeBar(gr,
                         "<< " + mainwin.appmon.FriendlyName + " >>\nSSF Back Glass Gain   "
                         + Math.Round(mainwin.SSFBGVolume) + "db" + muted,
-                        mainwin.SSFBGVolume, r);
+                        mainwin.SSFBGVolume, r, mainwin.cfg.SSFdBLimit);
                     break;
 
                 case OSDType.SSFRS:
                     DrawVolumeBar(gr,
                         "<< " + mainwin.appmon.FriendlyName + " >>\nSSF Rear Exciters Gain   "
                         + Math.Round(mainwin.SSFRSVolume) + "db" + muted,
-                        mainwin.SSFRSVolume, r);
+                        mainwin.SSFRSVolume, r, mainwin.cfg.SSFdBLimit);
                     break;
 
                 case OSDType.SSFFS:
-                    DrawVolumeBar(gr,
-                        "<< " + mainwin.appmon.FriendlyName + " >>\nSSF Front Exciters Gain   "
-                        + Math.Round(mainwin.SSFFSVolume) + "db" + muted,
-                        mainwin.SSFFSVolume, r);
+                    var friendlyname = "<< " + mainwin.appmon.FriendlyName + " >>\nSSF Front Exciters Gain   " +
+                                       Math.Round(mainwin.SSFFSVolume) + "db" + muted;
+                    if (mainwin.cfg.GroupSSFKeys)
+                        friendlyname = "<< " + mainwin.appmon.FriendlyName + " >>\nSSF Table FX Gain   " + Math.Round(mainwin.SSFFSVolume) + "db" + muted;
+                    
+                    DrawVolumeBar(gr,friendlyname, mainwin.SSFFSVolume, r, mainwin.cfg.SSFdBLimit);
                     break;
             }
         }
 
-        void DrawVolumeBar(Graphics gr, String title, float vol, int r)
+        void DrawVolumeBar(Graphics gr, String title, float vol, int r, int maxvol = 0)
         {
             // Get the window size.  If rotated 90 or 270 degrees, swap width
             // and height for our bar size calculations.
@@ -193,7 +195,8 @@ namespace PinVol
 
             // Figure the bar height, based on the text height
             SizeF txtsz = gr.MeasureString("X", font);
-            Size barsz = new Size(winsz.Width, (int)(txtsz.Height * 1.5f));
+            int h = Convert.ToInt32(txtsz.Height * 1.5f);
+            Size barsz = new Size(winsz.Width, h);
 
             // Figure the bar top position, aligning at the bototm
             int left = 0, right = barsz.Width;
@@ -209,6 +212,8 @@ namespace PinVol
             int nticks = Math.Max(availwid / (tickwid + ticksp), 1);
             tickwid = Math.Max((availwid / nticks) - ticksp, 1);
 
+            bool SSFBar = false;
+            
             // select the brushes
             Brush black = Brushes.Black;
             Brush rcbrush, txbrush;
@@ -225,7 +230,8 @@ namespace PinVol
                 case OSDType.SSFBG:
                 case OSDType.SSFRS:
                 case OSDType.SSFFS:
-                    rcbrush = txbrush = Brushes.White;
+                    rcbrush = txbrush = Brushes.AliceBlue;
+                    SSFBar = true;
                     break;
 
                 case OSDType.Global:
@@ -243,46 +249,158 @@ namespace PinVol
             int penwid = 2;
             using (Pen rcpen = mute ? new Pen(rcbrush, penwid) : null)
             {
-                // draw the ticks
-                for (int x = left; x < right; x += tickwid + ticksp)
+                // Different drawing method for -maxvol to maxvol (negative to positive) bar
+                if (SSFBar)
                 {
-                    // get the area of this tick
-                    Rectangle rc;
-                    Rectangle halftick = new Rectangle(x + tickwid / 4, top + barsz.Height / 4, tickwid / 2, barsz.Height / 2);
-                    bool drawhalf = false;
-                    if (x + tickwid <= volwid)
-                    {
-                        // we're still below the volume level, so draw a whole tick
-                        rc = new Rectangle(x, top, tickwid, top + barsz.Height);
-                    }
-                    else if (x < volwid)
-                    {
-                        // this tick is partially within the volume level, so draw a portion
-                        // of the tick plus the small tick
-                        rc = new Rectangle(x, top, volwid - x, top + barsz.Height);
-                        if (rc.Right > halftick.Left)
-                            halftick = new Rectangle(rc.Right, halftick.Top, halftick.Right - rc.Right, halftick.Height);
-                        drawhalf = true;
-                    }
-                    else
-                    {
-                        // We're entirely beyond the volume level.  Draw a half tick.
-                        rc = halftick;
-                    }
+                    var stepWidth = tickwid + ticksp;
+                    var middle = barsz.Width / 2;
+                    var vol_p = vol / maxvol;
+                    int volpwid = (int)(middle + (middle * vol_p));
 
-                    // draw the rectangle or outline
-                    if (mute)
-                        gr.DrawRectangle(rcpen, rc);
-                    else
-                        gr.FillRectangle(rcbrush, rc);
+                    middle -= tickwid / 2;
 
-                    // if we have a partial tick, also draw the half tick
-                    if (drawhalf)
+                    gr.FillRectangle(Brushes.BlueViolet, new Rectangle(middle,top, tickwid, barsz.Height));
+
+                    // draw the ticks. we're only looping through half the bar and
+                    // calculating the other half, but drawing both at the same time.
+                    for (int x = middle + stepWidth; x < right; x += stepWidth)
                     {
+                        var diff = x - middle;
+                        var x2 = middle - diff;
+
+                        // quarter tick markers. need one for positive markers and one for negative since we're drawing them separate.
+                        Rectangle halftick = new Rectangle(x + tickwid / 4, top + barsz.Height / 4, tickwid / 2, barsz.Height / 2);
+                        Rectangle halftick2 = new Rectangle(x2 + tickwid / 4, top + barsz.Height / 4, tickwid / 2, barsz.Height / 2);
+
+                        Rectangle rc = halftick, rc2 = halftick2;
+
+                        bool drawhalf = false;
+                        bool drawhalf2 = false;
+
+                        // if we're in the positive on the bar.
+                        if (vol > 0)
+                        {
+                            if (x + tickwid <= volpwid)
+                            {
+                                // we're still below the volume level, so draw a whole tick
+                                rc = new Rectangle(x, top, tickwid, barsz.Height);
+                            }
+                            else if (x < volpwid)
+                            {
+                                // this tick is partially within the volume level, so draw a portion
+                                // of the tick plus the small tick
+                                rc = new Rectangle(x, top, (volpwid - x), barsz.Height);
+
+                                if (rc.Right > halftick.Left)
+                                {
+                                    // no overlap of quarter tick markers.
+                                    halftick = new Rectangle(rc.Right, halftick.Top, halftick.Right - rc.Right, halftick.Height);
+                                }
+
+                                drawhalf = true;
+                            }
+                        }
+                        else if (vol < 0)
+                        {
+                            if (x2 > volpwid)
+                            {
+                                // we're still above the volume level, draw the full tick. (remember this is for negative values)
+                                rc2 = new Rectangle(x2, top, tickwid, barsz.Height);
+                            }
+                            else if (x2 < volpwid)
+                            {
+                                // we're partially within the volume level, so only draw the needed amount.
+                                rc2 = Rectangle.FromLTRB(volpwid, top, x2 + tickwid, top + barsz.Height);
+                                if (rc2.Left < halftick2.Right)
+                                {
+                                    // no overlap of quarter tick markers.
+                                    halftick2 = Rectangle.FromLTRB(halftick2.Left, halftick2.Top, rc2.Left, halftick2.Bottom);
+                                }
+
+                                drawhalf2 = true;
+                            }
+                        }
+
                         if (mute)
-                            gr.DrawRectangle(rcpen, halftick);
+                        {
+                            gr.DrawRectangle(rcpen, rc);
+                            gr.DrawRectangle(rcpen, rc2);
+                        }
                         else
-                            gr.FillRectangle(rcbrush, halftick);
+                        {
+                            gr.FillRectangle(rcbrush, rc);
+                            gr.FillRectangle(rcbrush, rc2);
+                        }
+
+                        // if we have a partial tick, also draw the half tick
+                        if (drawhalf)
+                        {
+                            if (mute)
+                            {
+                                gr.DrawRectangle(rcpen, halftick);
+                            }
+                            else
+                            {
+                                gr.FillRectangle(rcbrush, halftick);
+                            }
+                        }
+                        if (drawhalf2)
+                        {
+                            if (mute)
+                            {
+                                gr.DrawRectangle(rcpen, halftick2);
+                            }
+                            else
+                            {
+                                gr.FillRectangle(rcbrush, halftick2);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // draw the ticks. 0 - 100% bar
+                    for (int x = left; x < right; x += tickwid + ticksp)
+                    {
+                        // get the area of this tick
+                        Rectangle rc;
+                        Rectangle halftick = new Rectangle(x + tickwid / 4, top + barsz.Height / 4, tickwid / 2, barsz.Height / 2);
+                        bool drawhalf = false;
+                        if (x + tickwid <= volwid)
+                        {
+                            // we're still below the volume level, so draw a whole tick
+                            rc = new Rectangle(x, top, tickwid, top + barsz.Height);
+                        }
+                        else if (x < volwid)
+                        {
+                            // this tick is partially within the volume level, so draw a portion
+                            // of the tick plus the small tick
+                            rc = new Rectangle(x, top, volwid - x, top + barsz.Height);
+                            if (rc.Right > halftick.Left)
+                                halftick = new Rectangle(rc.Right, halftick.Top, halftick.Right - rc.Right,
+                                    halftick.Height);
+                            drawhalf = true;
+                        }
+                        else
+                        {
+                            // We're entirely beyond the volume level.  Draw a half tick.
+                            rc = halftick;
+                        }
+
+                        // draw the rectangle or outline
+                        if (mute)
+                            gr.DrawRectangle(rcpen, rc);
+                        else
+                            gr.FillRectangle(rcbrush, rc);
+
+                        // if we have a partial tick, also draw the half tick
+                        if (drawhalf)
+                        {
+                            if (mute)
+                                gr.DrawRectangle(rcpen, halftick);
+                            else
+                                gr.FillRectangle(rcbrush, halftick);
+                        }
                     }
                 }
             }

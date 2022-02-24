@@ -63,7 +63,6 @@
             this.label31 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.txtNightMode = new System.Windows.Forms.TextBox();
@@ -85,6 +84,7 @@
             this.txtLocalDown = new System.Windows.Forms.TextBox();
             this.txtLocalUp = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.ckGroupSSFKeys = new System.Windows.Forms.CheckBox();
             this.label29 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.txtSSFFSDown = new System.Windows.Forms.TextBox();
@@ -103,18 +103,14 @@
             this.ckEnableLocal2 = new System.Windows.Forms.CheckBox();
             this.label15 = new System.Windows.Forms.Label();
             this.ckEnableJoystick = new System.Windows.Forms.CheckBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.joystickRescanTimer = new System.Windows.Forms.Timer(this.components);
             this.tipVersion = new System.Windows.Forms.ToolTip(this.components);
-            this.picLogo = new System.Windows.Forms.PictureBox();
             this.lblVersion = new System.Windows.Forms.Label();
             this.configToolCheckTimer = new System.Windows.Forms.Timer(this.components);
             this.trkDefaultVol = new System.Windows.Forms.TrackBar();
             this.label20 = new System.Windows.Forms.Label();
             this.lblDefaultVol = new System.Windows.Forms.Label();
             this.SSFGroupBox = new System.Windows.Forms.GroupBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.trkSSFBGVol = new System.Windows.Forms.TrackBar();
             this.lblSSFBGVol = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
@@ -124,34 +120,42 @@
             this.trkSSFRSVol = new System.Windows.Forms.TrackBar();
             this.lblSSFRSVol = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
-            this.picNightMode = new System.Windows.Forms.PictureBox();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.notifyIconMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.notifyIconMenuItem_Show = new System.Windows.Forms.ToolStripMenuItem();
-            this.notifyIconMenuItem_Quit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.notifyIconMenuItem_Quit = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.picChainLockBig = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.picNightMode = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.picLogo = new System.Windows.Forms.PictureBox();
             this.KeyMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trkGlobalVol)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkLocalVol)).BeginInit();
             this.settingsPanel.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numSSFdBLimit)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkDefaultVol)).BeginInit();
             this.SSFGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkSSFBGVol)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkSSFFSVol)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkSSFRSVol)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picNightMode)).BeginInit();
             this.notifyIconMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picChainLockBig)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picNightMode)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -497,15 +501,6 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Global Keys";
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::PinVol.Properties.Resources.keyboardicon;
-            this.pictureBox2.Location = new System.Drawing.Point(525, 8);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(80, 30);
-            this.pictureBox2.TabIndex = 55;
-            this.pictureBox2.TabStop = false;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -707,6 +702,7 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage2.Controls.Add(this.ckGroupSSFKeys);
             this.tabPage2.Controls.Add(this.label29);
             this.tabPage2.Controls.Add(this.label30);
             this.tabPage2.Controls.Add(this.txtSSFFSDown);
@@ -726,6 +722,18 @@
             this.tabPage2.Size = new System.Drawing.Size(613, 140);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "SSF Keys";
+            // 
+            // ckGroupSSFKeys
+            // 
+            this.ckGroupSSFKeys.AutoSize = true;
+            this.ckGroupSSFKeys.Location = new System.Drawing.Point(136, 122);
+            this.ckGroupSSFKeys.Name = "ckGroupSSFKeys";
+            this.ckGroupSSFKeys.Size = new System.Drawing.Size(156, 17);
+            this.ckGroupSSFKeys.TabIndex = 41;
+            this.ckGroupSSFKeys.Text = "Group Front / Rear Exciters";
+            this.tipVersion.SetToolTip(this.ckGroupSSFKeys, "Group the front and rear exciters on a single slider.\r\n");
+            this.ckGroupSSFKeys.UseVisualStyleBackColor = true;
+            this.ckGroupSSFKeys.CheckedChanged += new System.EventHandler(this.ckGroupSSFKeys_CheckedChanged);
             // 
             // label29
             // 
@@ -906,30 +914,10 @@
             this.ckEnableJoystick.UseVisualStyleBackColor = true;
             this.ckEnableJoystick.CheckedChanged += new System.EventHandler(this.ckEnableJoystick_CheckedChanged);
             // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = global::PinVol.Properties.Resources.VolumeIcon;
-            this.pictureBox3.Location = new System.Drawing.Point(362, 518);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(80, 12);
-            this.pictureBox3.TabIndex = 55;
-            this.pictureBox3.TabStop = false;
-            // 
             // joystickRescanTimer
             // 
             this.joystickRescanTimer.Interval = 1000;
             this.joystickRescanTimer.Tick += new System.EventHandler(this.joystickRescanTimer_Tick);
-            // 
-            // picLogo
-            // 
-            this.picLogo.Image = global::PinVol.Properties.Resources.PinVolSpeaker;
-            this.picLogo.Location = new System.Drawing.Point(11, 9);
-            this.picLogo.Name = "picLogo";
-            this.picLogo.Size = new System.Drawing.Size(120, 120);
-            this.picLogo.TabIndex = 53;
-            this.picLogo.TabStop = false;
-            this.tipVersion.SetToolTip(this.picLogo, "VERSION NUMBER");
-            this.picLogo.Click += new System.EventHandler(this.picLogo_Click);
             // 
             // lblVersion
             // 
@@ -979,6 +967,7 @@
             // 
             // SSFGroupBox
             // 
+            this.SSFGroupBox.Controls.Add(this.picChainLockBig);
             this.SSFGroupBox.Controls.Add(this.pictureBox1);
             this.SSFGroupBox.Controls.Add(this.pictureBox4);
             this.SSFGroupBox.Controls.Add(this.trkSSFBGVol);
@@ -997,27 +986,6 @@
             this.SSFGroupBox.TabIndex = 69;
             this.SSFGroupBox.TabStop = false;
             this.SSFGroupBox.Text = "SSF (EQAPO not installed)";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(533, 24);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(78, 119);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 78;
-            this.pictureBox1.TabStop = false;
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(10, 21);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(165, 123);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox4.TabIndex = 79;
-            this.pictureBox4.TabStop = false;
             // 
             // trkSSFBGVol
             // 
@@ -1112,17 +1080,6 @@
             this.label22.TabIndex = 69;
             this.label22.Text = "Rear Exciters Gain:";
             // 
-            // picNightMode
-            // 
-            this.picNightMode.Image = global::PinVol.Properties.Resources.nightMode;
-            this.picNightMode.InitialImage = ((System.Drawing.Image)(resources.GetObject("picNightMode.InitialImage")));
-            this.picNightMode.Location = new System.Drawing.Point(547, 36);
-            this.picNightMode.Name = "picNightMode";
-            this.picNightMode.Size = new System.Drawing.Size(24, 24);
-            this.picNightMode.TabIndex = 58;
-            this.picNightMode.TabStop = false;
-            this.picNightMode.Visible = false;
-            // 
             // notifyIcon1
             // 
             this.notifyIcon1.BalloonTipText = "PinVol";
@@ -1140,25 +1097,97 @@
             this.notifyIconMenuItem_Quit});
             this.notifyIconMenu.Name = "notifyIconMenu";
             this.notifyIconMenu.ShowImageMargin = false;
-            this.notifyIconMenu.Size = new System.Drawing.Size(163, 76);
+            this.notifyIconMenu.Size = new System.Drawing.Size(162, 54);
             this.notifyIconMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.notifyIconMenu_ItemClicked);
             // 
             // notifyIconMenuItem_Show
             // 
             this.notifyIconMenuItem_Show.Name = "notifyIconMenuItem_Show";
-            this.notifyIconMenuItem_Show.Size = new System.Drawing.Size(162, 22);
+            this.notifyIconMenuItem_Show.Size = new System.Drawing.Size(161, 22);
             this.notifyIconMenuItem_Show.Text = "Show PinVol Window";
-            // 
-            // notifyIconMenuItem_Quit
-            // 
-            this.notifyIconMenuItem_Quit.Name = "notifyIconMenuItem_Quit";
-            this.notifyIconMenuItem_Quit.Size = new System.Drawing.Size(162, 22);
-            this.notifyIconMenuItem_Quit.Text = "Close PinVol";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(159, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(158, 6);
+            // 
+            // notifyIconMenuItem_Quit
+            // 
+            this.notifyIconMenuItem_Quit.Name = "notifyIconMenuItem_Quit";
+            this.notifyIconMenuItem_Quit.Size = new System.Drawing.Size(161, 22);
+            this.notifyIconMenuItem_Quit.Text = "Close PinVol";
+            // 
+            // picChainLockBig
+            // 
+            this.picChainLockBig.Image = global::PinVol.Properties.Resources.Chain_Link_Sm;
+            this.picChainLockBig.Location = new System.Drawing.Point(561, 81);
+            this.picChainLockBig.Name = "picChainLockBig";
+            this.picChainLockBig.Size = new System.Drawing.Size(37, 38);
+            this.picChainLockBig.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picChainLockBig.TabIndex = 81;
+            this.picChainLockBig.TabStop = false;
+            this.picChainLockBig.Visible = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(533, 24);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(78, 119);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 78;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
+            this.pictureBox4.Location = new System.Drawing.Point(10, 21);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(165, 123);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox4.TabIndex = 79;
+            this.pictureBox4.TabStop = false;
+            // 
+            // picNightMode
+            // 
+            this.picNightMode.Image = global::PinVol.Properties.Resources.nightMode;
+            this.picNightMode.InitialImage = ((System.Drawing.Image)(resources.GetObject("picNightMode.InitialImage")));
+            this.picNightMode.Location = new System.Drawing.Point(547, 36);
+            this.picNightMode.Name = "picNightMode";
+            this.picNightMode.Size = new System.Drawing.Size(24, 24);
+            this.picNightMode.TabIndex = 58;
+            this.picNightMode.TabStop = false;
+            this.picNightMode.Visible = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::PinVol.Properties.Resources.keyboardicon;
+            this.pictureBox2.Location = new System.Drawing.Point(525, 8);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(80, 30);
+            this.pictureBox2.TabIndex = 55;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::PinVol.Properties.Resources.VolumeIcon;
+            this.pictureBox3.Location = new System.Drawing.Point(362, 518);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(80, 12);
+            this.pictureBox3.TabIndex = 55;
+            this.pictureBox3.TabStop = false;
+            // 
+            // picLogo
+            // 
+            this.picLogo.Image = global::PinVol.Properties.Resources.PinVolSpeaker;
+            this.picLogo.Location = new System.Drawing.Point(11, 9);
+            this.picLogo.Name = "picLogo";
+            this.picLogo.Size = new System.Drawing.Size(120, 120);
+            this.picLogo.TabIndex = 53;
+            this.picLogo.TabStop = false;
+            this.tipVersion.SetToolTip(this.picLogo, "VERSION NUMBER");
+            this.picLogo.Click += new System.EventHandler(this.picLogo_Click);
             // 
             // UIWin
             // 
@@ -1202,24 +1231,25 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numSSFdBLimit)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkDefaultVol)).EndInit();
             this.SSFGroupBox.ResumeLayout(false);
             this.SSFGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkSSFBGVol)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkSSFFSVol)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkSSFRSVol)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picNightMode)).EndInit();
             this.notifyIconMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picChainLockBig)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picNightMode)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1328,6 +1358,9 @@
         private System.Windows.Forms.ToolStripMenuItem notifyIconMenuItem_Show;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem notifyIconMenuItem_Quit;
+        private System.Windows.Forms.CheckBox ckGroupSSFKeys;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.PictureBox picChainLockBig;
     }
 }
 

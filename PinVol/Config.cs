@@ -56,6 +56,7 @@ namespace PinVol
         public bool EnableJoystick = false;             // enable joystick input
         public bool EnableLocal2 = false;               // enable independent control over secondary device volume per table
         public int SSFdBLimit = 10;                     // value for the SSF slider.
+        public bool GroupSSFKeys = false;                // enable grouping SSF Front/Rear keys together (saves on pin cab buttons)
 
         // Audio device record.  This represents the saved config data
         // corresponding to a UIWin.AudioDevice object.  
@@ -253,6 +254,8 @@ namespace PinVol
                                 ParseProgram(value);
                             else if (varname == "ssfdblimit")
                                 SSFdBLimit = int.Parse(value);
+                            else if (varname == "groupssfkeys")
+                                GroupSSFKeys = bool.Parse(value);
                             else
                                 Log.Error("Invalid key name in config file at line " + lineNum + ": " + m.Groups[1].Value);
                         }
@@ -440,6 +443,7 @@ namespace PinVol
                 lines.Add("EnableJoystick = " + EnableJoystick);
                 lines.Add("EnableSecondary = " + EnableLocal2);
                 lines.Add("SSFdBLimit = " + SSFdBLimit); 
+                lines.Add("GroupSSFKeys = " + GroupSSFKeys);
 
                 // add the active device list
                 foreach (var kvp in devices)

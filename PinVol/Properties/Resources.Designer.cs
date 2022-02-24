@@ -63,16 +63,6 @@ namespace PinVol.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Chain {
-            get {
-                object obj = ResourceManager.GetObject("Chain", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Chain_Link_Sm {
             get {
                 object obj = ResourceManager.GetObject("Chain-Link-Sm", resourceCulture);

@@ -174,7 +174,6 @@
     <None Include="keyboardicon.png" />
     <None Include="nightMode.png" />
     <None Include="nightModeLarge.png" />
-    <None Include="Chain.png" />
     <Content Include="FodyWeavers.xml">
       <SubType>Designer</SubType>
     </Content>
